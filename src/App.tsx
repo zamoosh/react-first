@@ -1,7 +1,9 @@
-import Message from "./Message.tsx";
+import ListGroup from "./componenets/ListGroup";
 
 function App() {
-  return <div><Message /></div>
+  const items: string[] = ["New York", "Qom", "Tehran", "Tokyo"];
+  
+  return <div><ListGroup items={items} heading={"Cities"} /></div>
 }
 
 export default App;
