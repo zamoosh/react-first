@@ -1,16 +1,17 @@
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
   type: string;
+  onClose: () => void
 }
 
-function Alert({ children, type }: Props) {
-  const className = `alert alert-${type}`;
+function Alert({ children, type, onClose }: Props) {
 
   return (
-    <div className={className} role="alert">
+    <div className={`alert alert-${type} alert-dismissible fade show`} role="alert">
       {children}
+      <button type="button" onClick={onClose} className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   );
 }
