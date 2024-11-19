@@ -1,13 +1,18 @@
-import ListGroup from "./componenets/ListGroup";
+import Alert from "./componenets/AlertComponent/Alert";
+import Button from "./componenets/buttonComponent/Button";
 
 function App() {
-  const items: string[] = ["New York", "Qom", "Tehran", "Tokyo"];
-  
-  const handleSelectItem = (item: string) => {
-    console.log(item)
-  }
-  
-  return <div><ListGroup items={items} heading={"Cities"} onSelectItem={handleSelectItem} /></div>
+  return (
+    <div className={"container mt-3"}>
+      <Alert type={"danger"}>
+        <strong>invalid</strong> data!
+      </Alert>
+
+      <Button color={"warning"} onClick={() => console.log("click")}>
+        My text
+      </Button>
+    </div>
+  );
 }
 
 export default App;
