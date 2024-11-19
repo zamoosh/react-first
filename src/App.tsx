@@ -1,30 +1,9 @@
-import Alert from "./componenets/AlertComponent/Alert";
-import Button from "./componenets/buttonComponent/Button";
-import Heart from "./componenets/HeartComponent/Heart"
-import { useState } from "react";
+import Heart from "./componenets/HeartComponent/Heart";
 
 function App() {
-  const [show, setShow] = useState(false);
-
   return (
     <div className={"container mt-3"}>
-      {show && (
-        <Alert onClose={() => setShow(false)} type={"danger"}>
-          <strong>invalid</strong> data!
-        </Alert>
-      )}
-
-      <Button
-        color={"warning"}
-        onClick={() => {
-          console.log("ali ali ali");
-          setShow(true);
-        }}
-      >
-        My text
-      </Button>
-      
-      <Heart />
+      <Heart onClick={() => console.log("heart clicked")} />
     </div>
   );
 }

@@ -1,10 +1,27 @@
-import { CiHeart } from "react-icons/ci";
+import { useState } from "react";
+import { nanoid } from "nanoid";
 
-function Heart() {
+interface Props {
+  onClick: () => void;
+}
+
+function Heart({ onClick }: Props) {
+  const [liked, setLiked] = useState(false);
+  const color = liked ? "red" : "black";
+
   return (
-    <>
-      <CiHeart size={50} />
-    </>
+    <span
+      key={nanoid()}
+      onClick={() => {
+        setLiked(!liked);
+        onClick();
+      }}
+    >
+      <i
+        style={{ width: 30, height: 30, color: color }}
+        className={liked ? "fa-heart fa-solid" : "fa-heart fa-regular"}
+      ></i>
+    </span>
   );
 }
 
