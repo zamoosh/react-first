@@ -1,6 +1,8 @@
+let count = 0;
+
 function Message() {
-  
-  const name = "Mohammad Rahimi";
+  count++;
+  const name = "Mohammad Rahimi" + count;
   return <h1>Hello {name}!</h1>;
 }
 
