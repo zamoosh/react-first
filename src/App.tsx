@@ -12,7 +12,7 @@ function App() {
     // setTags(tags.filter((tag) => tag !== "cheerful"));
     const newTags: string[] = [];
     for (let i = 0; i < tags.length - 1; i++) {
-      newTags.push(tags[i])
+      newTags.push(tags[i]);
     }
     setTags(newTags);
   };
@@ -24,7 +24,7 @@ function App() {
   return (
     <div className={"container mt-3"}>
       <pre>{tags}</pre>
-      
+
       <button onClick={handleClickAdd}>add</button>
 
       <br />
