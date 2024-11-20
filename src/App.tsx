@@ -2,19 +2,25 @@ import { useState } from "react";
 import Heart from "./componenets/HeartComponent/Heart";
 
 function App() {
-  const [drink, setDrink] = useState({
-    title: "Americano",
-    price: 5,
+  const [customer, setCustomer] = useState({
+    name: "Americano",
+    address: {
+      city: "Qom",
+      zipCode: "911444",
+    },
   });
 
   const handleClick = () => {
-    setDrink({ ...drink, price: (drink.price += 1) });
+    setCustomer({
+      ...customer,
+      address: { ...customer.address, zipCode: "911888" },
+    });
   };
 
   return (
     <div className={"container mt-3"}>
-      {drink.price}
-      <button onClick={handleClick}>click to update price</button>
+      {customer.address.zipCode}
+      <button onClick={handleClick}>click to update customer</button>
 
       <Heart onClick={() => console.log("heart clicked")} />
     </div>
