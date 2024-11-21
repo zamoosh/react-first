@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Heart from "./componenets/HeartComponent/Heart";
 import { nanoid } from "nanoid";
-
-// import produce from "immer";
+import { produce } from "immer";
 
 function App() {
   const [bugs, setBugs] = useState([
@@ -11,14 +10,10 @@ function App() {
   ]);
 
   const handleClick = () => {
-    setBugs(
-      [...bugs].map((bug) => (bug.id === 2 ? { ...bug, fixed: true } : bug)),
-    );
-
-    // setBugs(produce((draft) => {
-    //   const bug = draft.find(bug => bug.id === 1);
-    //   if (bug) bug.fixed = true;
-    // }))
+    setBugs(produce((draft) => {
+      const bug = draft.find(bug => bug.id === 2);
+      if (bug) bug.fixed = true;
+    }))
   };
 
   return (
