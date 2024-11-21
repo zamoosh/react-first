@@ -1,17 +1,20 @@
-import { FormEvent } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 
-interface FormData {
-  name: string;
-  age: number;
-}
+const schema = z.object({
+  name: z.string().min(3, {message: "name must be 3 chars"}),
+  age: z.number({invalid_type_error: "age is required"}).min(18, {message: "age must be at least 18"}),
+});
+
+type FormData = z.infer<typeof schema>;
 
 function Form() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+    formState: { errors, isValid },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => console.log(data);
 
@@ -22,19 +25,14 @@ function Form() {
           Name
         </label>
         <input
-          {...register("name", { required: true, minLength: 3 })}
+          {...register("name")}
           id="name"
           name="name"
           type="text"
           className="form-control"
         />
-        {errors.name?.type === "required" && (
-          <small className="text-danger">This field is required</small>
-        )}
-        {errors.name?.type === "minLength" && (
-          <small className="text-danger">
-            This field must be at least 3 characters
-          </small>
+        {errors.name && (
+          <small className="text-danger">{errors.name?.message}</small>
         )}
       </div>
 
@@ -43,15 +41,16 @@ function Form() {
           Age
         </label>
         <input
-          {...register("age")}
+          {...register("age", {valueAsNumber: true})}
           id="age"
           name="age"
           type="number"
           className="form-control"
         />
+        {errors.age && <small className="text-danger">{errors.age.message}</small>}
       </div>
 
-      <button className="btn btn-primary" type="submit">
+      <button disabled={!isValid} className="btn btn-primary" type="submit">
         Submit
       </button>
     </form>
