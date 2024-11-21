@@ -4,24 +4,23 @@ import { nanoid } from "nanoid";
 import { produce } from "immer";
 
 function App() {
-  const [game, setGame] = useState({
-    id: 1,
-    player: {
-      name: "john",
-    }
+  const [pizza, setPizza] = useState({
+    name: "spicy pepperoni",
+    toppings: ["Mushroom"],
   });
 
   const handleClick = () => {
-    setGame(produce(draft => {
-      draft.player.name = "Mohammad"
-    }))
+    setPizza(
+      produce((draft) => {
+        draft.toppings.push("Pepper", "Cheese");
+      }),
+    );
   };
 
   return (
     <div className={"container mt-3"}>
-      
-      <h2>{game.player.name}</h2>
-      <h3>{game.id}</h3>
+      <h2>{pizza.name}</h2>
+      <h3>{pizza.toppings}</h3>
 
       <button onClick={handleClick}>click me</button>
 
