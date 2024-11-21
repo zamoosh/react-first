@@ -2,10 +2,13 @@
 // import { nanoid } from "nanoid";
 // import { produce } from "immer";
 // import Form from "./componenets/FormComponent/Form";
-import ExpenseList from "./componenets/expense-tracker/ocmponents/expense-list/ExpenseList.tsx";
+import ExpenseList from "./componenets/expense-tracker/expense-list/ExpenseList.tsx";
 import { useState } from "react";
 // import { produce } from "immer";
-import ExpenseFilter from "./componenets/expense-tracker/ocmponents/expense-list/ExpenseFilter.tsx";
+import ExpenseFilter from "./componenets/expense-tracker/expense-list/ExpenseFilter.tsx";
+import ExpenseForm from "./componenets/expense-tracker/expense-form/ExpenseForm.tsx";
+
+export const categories: string[] = ["Groceries", "Utilities", "Entertainment"];
 
 function App() {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -32,6 +35,8 @@ function App() {
           setExpenses(expenses.filter((e) => e.id !== id))
         }
       />
+
+      <ExpenseForm categories={categories} />
     </div>
   );
 }

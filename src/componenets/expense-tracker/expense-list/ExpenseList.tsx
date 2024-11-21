@@ -1,11 +1,6 @@
 import { nanoid } from "nanoid";
+import { Expense } from "../ExpenseInterface.ts";
 
-interface Expense {
-  id: number;
-  description: string;
-  amount: number;
-  category: string;
-}
 
 interface Props {
   expense: Expense[];

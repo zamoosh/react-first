@@ -3,8 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 
 const schema = z.object({
-  name: z.string().min(3, {message: "name must be 3 chars"}),
-  age: z.number({invalid_type_error: "age is required"}).min(18, {message: "age must be at least 18"}),
+  name: z.string().min(3, { message: "name must be 3 chars" }),
+  age: z
+    .number({ invalid_type_error: "age is required" })
+    .min(18, { message: "age must be at least 18" }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -41,13 +43,15 @@ function Form() {
           Age
         </label>
         <input
-          {...register("age", {valueAsNumber: true})}
+          {...register("age", { valueAsNumber: true })}
           id="age"
           name="age"
           type="number"
           className="form-control"
         />
-        {errors.age && <small className="text-danger">{errors.age.message}</small>}
+        {errors.age && (
+          <small className="text-danger">{errors.age.message}</small>
+        )}
       </div>
 
       <button disabled={!isValid} className="btn btn-primary" type="submit">
