@@ -4,25 +4,24 @@ import { nanoid } from "nanoid";
 import { produce } from "immer";
 
 function App() {
-  const [bugs, setBugs] = useState([
-    { id: 1, name: "bug 1", fixed: false },
-    { id: 2, name: "bug 2", fixed: false },
-  ]);
+  const [game, setGame] = useState({
+    id: 1,
+    player: {
+      name: "john",
+    }
+  });
 
   const handleClick = () => {
-    setBugs(produce((draft) => {
-      const bug = draft.find(bug => bug.id === 2);
-      if (bug) bug.fixed = true;
+    setGame(produce(draft => {
+      draft.player.name = "Mohammad"
     }))
   };
 
   return (
     <div className={"container mt-3"}>
-      {bugs.map((elem) => (
-        <div key={nanoid()}>
-          {elem.name} {elem.fixed ? "true" : "false"}
-        </div>
-      ))}
+      
+      <h2>{game.player.name}</h2>
+      <h3>{game.id}</h3>
 
       <button onClick={handleClick}>click me</button>
 
