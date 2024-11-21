@@ -4,23 +4,35 @@ import { nanoid } from "nanoid";
 import { produce } from "immer";
 
 function App() {
-  const [pizza, setPizza] = useState({
-    name: "spicy pepperoni",
-    toppings: ["Mushroom"],
+  const [cart, setCart] = useState({
+    discount: 0.1,
+    items: [
+      { id: 1, title: "product 1", quantity: 1 },
+      { id: 2, title: "product 2", quantity: 1 },
+    ],
   });
 
   const handleClick = () => {
-    setPizza(
+    setCart(
       produce((draft) => {
-        draft.toppings.push("Pepper", "Cheese");
+        let item = draft.items.find((item) => item.id === 1);
+        if (item) item.quantity = 4;
       }),
     );
   };
 
   return (
     <div className={"container mt-3"}>
-      <h2>{pizza.name}</h2>
-      <h3>{pizza.toppings}</h3>
+      <h2>Discount: {cart.discount}</h2>
+
+      <p>Products inside cart:</p>
+      <div>
+        {cart.items.map((elem) => (
+          <p key={nanoid()}>
+            "{elem.id}" "{elem.title}" "{elem.quantity}"
+          </p>
+        ))}
+      </div>
 
       <button onClick={handleClick}>click me</button>
 
