@@ -1,23 +1,16 @@
-import Product from "./componenets/product/ProductList/Product";
-import { useState } from "react";
+import { useEffect } from "react";
+
+const connect = () => console.log("Connecting");
+const disconnect = () => console.log("Disconnecting");
 
 function App() {
-  const [category, setCategory] = useState("");
+  useEffect(() => {
+    connect();
 
-  return (
-    <div className={"container mt-3"}>
-      <div className={"mb-3"}>
-        <select
-          onChange={(event) => setCategory(event.target.value)}
-          className="form-select"
-        >
-          <option value="Clothing">Clothing</option>
-          <option value="Household">Household</option>
-        </select>
-      </div>
-      <Product selectedCategory={category} />
-    </div>
-  );
+    return () => disconnect();
+  }, []);
+
+  return <div className={"container mt-3"}></div>;
 }
 
 export default App;
