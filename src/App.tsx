@@ -7,8 +7,7 @@ import { useState } from "react";
 // import { produce } from "immer";
 import ExpenseFilter from "./componenets/expense-tracker/expense-list/ExpenseFilter.tsx";
 import ExpenseForm from "./componenets/expense-tracker/expense-form/ExpenseForm.tsx";
-
-export const categories: string[] = ["Groceries", "Utilities", "Entertainment"];
+import categories from "./vars/vars.ts";
 
 function App() {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -36,7 +35,7 @@ function App() {
         }
       />
 
-      <ExpenseForm categories={categories} />
+      <ExpenseForm categories={[...categories]} />
     </div>
   );
 }

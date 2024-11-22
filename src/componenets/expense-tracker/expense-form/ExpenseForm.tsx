@@ -1,12 +1,17 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
+import categories from "../../../vars/vars";
 
 const schema = z.object({
   name: z.string().trim().min(1),
-  description: z.string().trim().nullable(),
-  amount: z.number({ invalid_type_error: "amount must be number" }).positive(),
-  category: z.string().trim(),
+  description: z.string().min(3).max(20).trim().nullable(),
+  amount: z
+    .number({ invalid_type_error: "amount must be number" })
+    .min(0.01)
+    .max(100_000)
+    .positive(),
+  category: z.enum(categories),
 });
 
 type formData = z.infer<typeof schema>;
@@ -94,7 +99,9 @@ function ExpenseForm({ categories }: Props) {
             >
               <option>-- no value --</option>
               {categories.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c}>
+                  {c}
+                </option>
               ))}
             </select>
           </div>
