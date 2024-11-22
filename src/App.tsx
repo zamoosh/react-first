@@ -1,10 +1,24 @@
 import { useEffect, useRef } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  name: z.string().min(10),
+});
+
+type FormData = z.infer<typeof schema>;
 
 function App() {
-  const ref = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    setFocus,
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   useEffect(() => {
-    if (ref.current) ref.current.focus();
+    setFocus("name")
   });
 
   useEffect(() => {
@@ -13,7 +27,25 @@ function App() {
 
   return (
     <div className={"container mt-3"}>
-      <input ref={ref} className="form-control" />
+      <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <div className="mb-3">
+          <label className="form-label" htmlFor={register("name").name}>
+            Name
+          </label>
+          <input
+            id={register("name").name}
+            {...register("name")}
+            // ref={ref}
+            className={
+              "form-control " + (errors.name && "border border-danger")
+            }
+          />
+        </div>
+
+        <button disabled={!isValid} className="btn btn-outline-primary">
+          Submit
+        </button>
+      </form>
     </div>
   );
 }
