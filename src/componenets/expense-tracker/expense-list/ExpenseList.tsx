@@ -1,7 +1,6 @@
 import { nanoid } from "nanoid";
 import { Expense } from "../ExpenseInterface.ts";
 
-
 interface Props {
   expense: Expense[];
   onDelete: (id: number) => void;

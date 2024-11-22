@@ -1,11 +1,10 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import categories from "../../../vars/vars";
 
 const schema = z.object({
-  name: z.string().trim().min(1),
-  description: z.string().min(3).max(20).trim().nullable(),
+  description: z.string().min(3).max(20).trim(),
   amount: z
     .number({ invalid_type_error: "amount must be number" })
     .min(0.01)
@@ -14,46 +13,38 @@ const schema = z.object({
   category: z.enum(categories),
 });
 
-type formData = z.infer<typeof schema>;
+type ExpenseFormData = z.infer<typeof schema>;
 
 interface Props {
   categories: string[];
+  onAdd: (expense: ExpenseFormData) => void;
 }
 
-function ExpenseForm({ categories }: Props) {
+function ExpenseForm({ categories, onAdd }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
-  } = useForm<formData>({ resolver: zodResolver(schema) });
+  } = useForm<ExpenseFormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: FieldValues) => {
-    for (const key in data) {
-      if (typeof data[key] === "string" && data[key] === "") data[key] = null;
-    }
-    console.log(data);
-  };
+  // const onSubmit = (data: FieldValues) => {
+  //   for (const key in data) {
+  //     if (typeof data[key] === "string" && data[key] === "") data[key] = null;
+  //   }
+  //   onAdd(data);
+  // };
 
   return (
     <>
       <div className="border p-3 mt-5">
         <h3>Expense Creation Form</h3>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Name
-            </label>
-            <input
-              {...register("name")}
-              id="name"
-              name="name"
-              type="text"
-              className={
-                "form-control " + (errors.name && "border border-danger")
-              }
-            />
-          </div>
-
+        <form
+          onSubmit={handleSubmit((data) => {
+            onAdd(data);
+            reset();
+          })}
+        >
           <div className="mb-3">
             <label htmlFor="description" className="form-label">
               Description

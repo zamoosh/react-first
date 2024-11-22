@@ -2,9 +2,9 @@
 // import { nanoid } from "nanoid";
 // import { produce } from "immer";
 // import Form from "./componenets/FormComponent/Form";
+// import { produce } from "immer";
 import ExpenseList from "./componenets/expense-tracker/expense-list/ExpenseList.tsx";
 import { useState } from "react";
-// import { produce } from "immer";
 import ExpenseFilter from "./componenets/expense-tracker/expense-list/ExpenseFilter.tsx";
 import ExpenseForm from "./componenets/expense-tracker/expense-form/ExpenseForm.tsx";
 import categories from "./vars/vars.ts";
@@ -35,7 +35,10 @@ function App() {
         }
       />
 
-      <ExpenseForm categories={[...categories]} />
+      <ExpenseForm
+        categories={[...categories]}
+        onAdd={expense => setExpenses([...expenses, {...expense, id: expenses.length + 1}])}
+      />
     </div>
   );
 }
