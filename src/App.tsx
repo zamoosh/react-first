@@ -9,9 +9,12 @@ interface User {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
+
+    setLoading(true);
     axios
       .get<User[]>("https://jsonplaceholder.typicode.com/users", {
         signal: controller.signal,
@@ -22,9 +25,10 @@ function App() {
       .catch((error: AxiosError) => {
         if (error instanceof CanceledError) return;
         setErr(error.message);
-      });
+      })
+      .finally(() => setLoading(false));
 
-    return controller.abort();
+    // return controller.abort();
   }, []);
 
   return (
@@ -33,6 +37,9 @@ function App() {
         <div className="alert alert-danger" role="alert">
           {err}
         </div>
+      )}
+      {loading && (
+        <div className="spinner-border"></div>
       )}
       <div className="container mt-3">
         <table className="table">
