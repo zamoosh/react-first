@@ -1,5 +1,6 @@
 import axios, { AxiosError, CanceledError } from "axios";
 import { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 
 interface User {
   id: number;
@@ -42,6 +43,35 @@ function App() {
       });
   };
 
+  const addUser = () => {
+    const user: User = { id: users.length + 1, name: "john smith" };
+    setUsers([...users, user]);
+    axios
+      .post("https://jsonplaceholder.typicode.com/users/", user)
+      .then((res) => {
+        setUsers([...users, res.data]);
+      })
+      .catch((err: AxiosError) => {
+        setErr(err.message);
+        deleteUser(user);
+      });
+  };
+
+  const editUser = (user: User) => {
+    const originalUsers = [...users];
+    const updatedUser = { ...user, name: user.name + "1" };
+
+    const newUsers = users.map((u) => (u.id === user.id ? updatedUser : u));
+    setUsers(newUsers);
+
+    axios
+      .patch<User>("https://jsonplaceholder.typicode.com/users/" + updatedUser.id, updatedUser)
+      .catch((err: AxiosError) => {
+        setErr(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
   return (
     <>
       {err && (
@@ -51,6 +81,9 @@ function App() {
       )}
       {loading && <div className="spinner-border"></div>}
       <div className="container mt-3">
+        <button className="btn btn-outline-info my-3" onClick={addUser}>
+          Add user
+        </button>
         <table className="table">
           <thead>
             <tr>
@@ -61,16 +94,24 @@ function App() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr key={nanoid()}>
                 <th scope="row">{user.id}</th>
                 <td>{user.name}</td>
                 <td>
-                  <button
-                    onClick={() => deleteUser(user)}
-                    className="btn btn-outline-danger"
-                  >
-                    Delete
-                  </button>
+                  <div>
+                    <button
+                      onClick={() => deleteUser(user)}
+                      className="btn btn-outline-danger"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => editUser(user)}
+                      className="btn btn-outline-secondary mx-1"
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
