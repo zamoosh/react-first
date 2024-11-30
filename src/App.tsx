@@ -1,28 +1,10 @@
-import { CanceledError, AxiosError } from "./services/api-client";
+import { AxiosError } from "./services/api-client";
 import UserService, { User } from "./services/user-service";
-import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import useUsers from "./hooks/useUsers";
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const { request, cancel } = UserService.list<User>();
-    request
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error: AxiosError) => {
-        if (error instanceof CanceledError) return;
-        setErr(error.message);
-      })
-      .finally(() => setLoading(false));
-
-    return () => cancel();
-  }, []);
+  const { users, setUsers, err, setErr, loading } = useUsers();
 
   const deleteUser = (user: User) => {
     const originalUsers = [...users];
