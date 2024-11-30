@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    const { request, cancel } = UserService.getAllUsers();
+    const { request, cancel } = UserService.list<User>();
     request
       .then((res) => {
         setUsers(res.data);
@@ -28,7 +28,7 @@ function App() {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    UserService.deleteUser(user.id).request.catch((error: AxiosError) => {
+    UserService.destroy(user.id).catch((error: AxiosError) => {
       setErr(error.message);
       setUsers(originalUsers);
     });
@@ -38,8 +38,8 @@ function App() {
     const user: User = { id: users.length + 1, name: "john smith" };
     setUsers([...users, user]);
 
-    UserService.addUser(user)
-      .request.then((res) => {
+    UserService.create<User>(user)
+      .then((res) => {
         setUsers([...users, res.data]);
       })
       .catch((err: AxiosError) => {
@@ -55,7 +55,7 @@ function App() {
     const newUsers = users.map((u) => (u.id === user.id ? updatedUser : u));
     setUsers(newUsers);
 
-    UserService.updateUser(updatedUser).request.catch((err: AxiosError) => {
+    UserService.put<User>(updatedUser).catch((err: AxiosError) => {
       setErr(err.message);
       setUsers(originalUsers);
     });
